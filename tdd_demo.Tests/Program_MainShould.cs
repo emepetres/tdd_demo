@@ -2,7 +2,7 @@
 using System.IO;
 using Xunit;
 
-namespace tdd_demo.Tests
+namespace tdd_demo.UnitTests
 {
     public class Program_MainShould : IDisposable
     {
