@@ -11,7 +11,7 @@ public class Program
         public string csv_path { get; set; }
     }
 
-    public static int Main(string[] args)
+    public static Options? ParseInputs(string[] args)
     {
         var parse_result = Parser.Default.ParseArguments<Options>(args);
 
@@ -21,8 +21,8 @@ public class Program
             {
                 Console.Error.WriteLine(err.ToString());
             }
-            
-            return 1;
+
+            return null;
         }
 
         // ensure csv path is correct
@@ -30,18 +30,31 @@ public class Program
         if (csv_path == null)
         {
             Console.Error.WriteLine("CSV path should not be null.");
-            return 1;
+            return null;
         }
         if (!File.Exists(csv_path))
         {
             Console.Error.WriteLine("CSV file not found.");
-            return 1;
+            return null;
         }
         if (!csv_path.ToLower().EndsWith("csv"))
         {
             Console.Error.WriteLine("Input file must be of csv extension.");
+            return null;
+        }
+
+        return parse_result.Value;
+    }
+
+    public static int Main(string[] args)
+    {
+        var parsed = ParseInputs(args);
+        if (parsed == null)
+        {
             return 1;
         }
+        
+        ////var csv_path = parsed.csv_path;
 
         return 0;
     }
