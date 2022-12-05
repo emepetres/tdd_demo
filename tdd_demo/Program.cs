@@ -46,15 +46,22 @@ public class Program
         return parse_result.Value;
     }
 
-    public static int Main(string[] args)
+    public static async Task<int> Main(string[] args)
     {
         var parsed = ParseInputs(args);
         if (parsed == null)
         {
             return 1;
         }
-        
-        ////var csv_path = parsed.csv_path;
+
+        var csv_path = parsed.csv_path;
+        string[] lines =
+        {
+            "First line", "Second line", "Third line"
+        };
+
+        var out_path = $"{csv_path[..^4]}_filtered.csv";
+        await File.WriteAllLinesAsync(out_path, lines);
 
         return 0;
     }
