@@ -53,5 +53,14 @@ namespace tdd_demo.UnitTests.CSVFilter
 
             Assert.False(is_valid);
         }
+
+        [Theory]
+        [InlineData("1,02/05/2019,1000,810,19,,ACER Laptop,B76430134,78544372A")]
+        public void IsValid_CIF_NIF_Exclusive(string csv_line)
+        {
+            var is_valid = tdd_demo.CSVFilter.IsValid(csv_line);
+
+            Assert.False(is_valid);
+        }
     }
 }

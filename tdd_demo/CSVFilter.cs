@@ -73,7 +73,9 @@ namespace tdd_demo
         {
             var data = new CSVLine(line);
 
-            return (data.iva == String.Empty || data.igic == String.Empty);
+            return
+                (data.iva == String.Empty || data.igic == String.Empty)
+                && (data.cif == String.Empty || data.nif == String.Empty);
         }
 
         private static string CleanHeader(string header)
