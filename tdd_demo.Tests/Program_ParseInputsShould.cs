@@ -12,7 +12,7 @@ namespace tdd_demo.UnitTests
         [InlineData(0, new string[] { "--other", "c:/test.csv" })]
         [InlineData(0, new string[] { "--csv", "c:/test.csv" })]
         [InlineData(0, new string[] { "--csv", "./Resources/bad_format.txt" })]
-        public void ParseInputs_WrongInput_ReturnNull(int _, string[] args)
+        public void support_bad_arguments(int _, string[] args)
         {
             Assert.True(Program.ParseInputs(args) == null);
         }

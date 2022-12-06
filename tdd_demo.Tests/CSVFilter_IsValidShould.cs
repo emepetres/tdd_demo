@@ -5,7 +5,7 @@ using System.Linq.Expressions;
 
 namespace tdd_demo.UnitTests.CSVFilter
 {
-    internal class Builder
+    internal class LineBuilder
     {
         struct CSVTestLine
         {
@@ -25,25 +25,25 @@ namespace tdd_demo.UnitTests.CSVFilter
 
         private CSVTestLine line;
 
-        public Builder()
+        public LineBuilder()
         {
             line = new CSVTestLine();
         }
 
-        public Builder SetTaxes(string iva, string igic)
+        public LineBuilder SetTaxes(string iva, string igic)
         {
             this.line.iva = iva;
             this.line.igic = igic;
             return this;
         }
-        public Builder SetId(string cif, string nif)
+        public LineBuilder SetId(string cif, string nif)
         {
             this.line.cif = cif;
             this.line.nif = nif;
             return this;
         }
 
-        public Builder SetMoney(string bruto, string neto)
+        public LineBuilder SetMoney(string bruto, string neto)
         {
             this.line.bruto = bruto;
             this.line.neto = neto;
@@ -56,41 +56,12 @@ namespace tdd_demo.UnitTests.CSVFilter
         }
     }
 
-    public class CSVFilter_FilterShould
+    public class CSVFilter_IsValidShould
     {
-        private static string[] BuildCSV(string line)
-        {
-            var csv = new List<string>();
-            csv.Add("Num_factura, Fecha, Bruto, Neto, IVA, IGIC, Concepto, CIF_cliente, NIF_cliente");
-
-            csv.Add(line);
-
-            return csv.ToArray();
-        }
-
-        private static string[] BuildCSV(string[] lines)
-        {
-            var csv = new List<string>();
-            csv.Add("Num_factura, Fecha, Bruto, Neto, IVA, IGIC, Concepto, CIF_cliente, NIF_cliente");
-            
-            foreach(var line in lines)
-            {
-                csv.Add(line);
-            }
-            
-            return csv.ToArray();
-        }
-
         [Fact]
-        public void FilterAll_HeaderNotPresent_ReturnNull()
+        public void validate_correct_line()
         {
-            tdd_demo.CSVFilter.FilterAll(new string[] { "bad header" });
-        }
-
-        [Fact]
-        public void IsValid_OneLine_IsValid()
-        {
-            string csv_line = new Builder().Build();
+            string csv_line = new LineBuilder().Build();
 
             var is_valid = tdd_demo.CSVFilter.IsValid(csv_line);
 
@@ -99,9 +70,9 @@ namespace tdd_demo.UnitTests.CSVFilter
 
         [Theory]
         [InlineData("19","8")]
-        public void IsValid_IVA_IGIC_Exclusive(string iva, string igic)
+        public void invalidate_line_with_iva_and_igic(string iva, string igic)
         {
-            string csv_line = new Builder()
+            string csv_line = new LineBuilder()
                 .SetTaxes(iva, igic)
                 .Build();
 
@@ -112,9 +83,9 @@ namespace tdd_demo.UnitTests.CSVFilter
 
         [Theory]
         [InlineData("B76430134","78544372A")]
-        public void IsValid_CIF_NIF_Exclusive(string cif, string nif)
+        public void invalidate_line_with_cif_and_nif(string cif, string nif)
         {
-            string csv_line = new Builder()
+            string csv_line = new LineBuilder()
                 .SetId(cif, nif)
                 .Build();
 
@@ -126,9 +97,9 @@ namespace tdd_demo.UnitTests.CSVFilter
         [Theory]
         [InlineData("1000","811","19","")]
         [InlineData("1000", "811", "", "19")]
-        public void IsValid_Bruto_Neto(string bruto, string neto, string iva, string igic)
+        public void invalidate_line_with_wrong_neto(string bruto, string neto, string iva, string igic)
         {
-            string csv_line = new Builder()
+            string csv_line = new LineBuilder()
                 .SetMoney(bruto,neto)
                 .SetTaxes(iva,igic)
                 .Build();

@@ -39,7 +39,7 @@ namespace tdd_demo
         private static readonly Regex sWhitespace = new Regex(@"\s+");
         private static string HEADER = "Num_factura, Fecha, Bruto, Neto, IVA, IGIC, Concepto, CIF_cliente, NIF_cliente";
         
-        public static string[]? FilterAll(string[] input)
+        public static string[]? Apply(string[] input)
         {
             var inputs = new Queue<string>(input);
 
@@ -95,9 +95,7 @@ namespace tdd_demo
 
         private static string CleanHeader(string header)
         {
-            string _header = String.Empty;
-            sWhitespace.Replace(header.ToLower(), _header);
-            return _header;
+            return sWhitespace.Replace(header.ToLower(), String.Empty);
         }
     }
 }

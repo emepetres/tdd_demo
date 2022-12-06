@@ -10,10 +10,14 @@
   <ItemGroup>
     <None Remove="Resources\bad_format.txt" />
     <None Remove="Resources\sample.csv" />
+    <None Remove="Resources\sample_filtered_expected.csv" />
   </ItemGroup>
 
   <ItemGroup>
     <Content Include="Resources\bad_format.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\sample_filtered_expected.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\sample.csv">

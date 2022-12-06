@@ -7,7 +7,9 @@ namespace tdd_demo.UnitTests
     public class Program_MainShould : IDisposable
     {
         private const string input_path = "./Resources/sample.csv";
+        private const string output_expected_path = "./Resources/sample_filtered_expected.csv";
         private const string output_path = "./Resources/sample_filtered.csv";
+
         public Program_MainShould()
         {
             File.Delete(output_path);
@@ -19,12 +21,24 @@ namespace tdd_demo.UnitTests
         }
 
         [Fact]
-        public void Main_ReturnCSV()
+        public void create_an_output_csv_file()
         {
             var args = new string[] { "--csv", input_path };
             Program.Main(args);
 
             Assert.True(File.Exists(output_path));
+        }
+
+        [Fact]
+        public void filter_a_csv_file()
+        {
+            var args = new string[] { "--csv", input_path };
+            Program.Main(args);
+
+            var filtered_output = File.ReadAllLines(output_path);
+            var filtered_output_expected = File.ReadAllLines(output_expected_path);
+
+            Assert.Equal(filtered_output_expected, filtered_output);
         }
     }
 }
