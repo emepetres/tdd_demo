@@ -21,19 +21,19 @@ namespace tdd_demo.UnitTests
         }
 
         [Fact]
-        public void create_an_output_csv_file()
+        public async void create_an_output_csv_file()
         {
             var args = new string[] { "--csv", input_path };
-            Program.Main(args);
+            await Program.Main(args);
 
             Assert.True(File.Exists(output_path));
         }
 
         [Fact]
-        public void filter_a_csv_file()
+        public async void filter_a_csv_file()
         {
             var args = new string[] { "--csv", input_path };
-            Program.Main(args);
+            await Program.Main(args);
 
             var filtered_output = File.ReadAllLines(output_path);
             var filtered_output_expected = File.ReadAllLines(output_expected_path);

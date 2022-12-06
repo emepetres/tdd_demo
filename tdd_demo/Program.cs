@@ -55,13 +55,16 @@ public class Program
         }
 
         var csv_path = parsed.csv_path;
-        string[] lines =
+        string[] lines = File.ReadAllLines(csv_path);
+
+        var filtered_lines = CSVFilter.Apply(lines);
+        if (filtered_lines == null)
         {
-            "First line", "Second line", "Third line"
-        };
+            return 1;
+        }
 
         var out_path = $"{csv_path[..^4]}_filtered.csv";
-        await File.WriteAllLinesAsync(out_path, lines);
+        await File.WriteAllLinesAsync(out_path, filtered_lines);
 
         return 0;
     }
