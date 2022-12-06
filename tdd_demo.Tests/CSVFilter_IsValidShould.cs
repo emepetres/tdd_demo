@@ -108,5 +108,16 @@ namespace tdd_demo.UnitTests.CSVFilter
 
             Assert.False(is_valid);
         }
+
+        [Fact]
+        public void invalidate_duplicated_num_field()
+        {
+            string csv_line = new LineBuilder().Build();
+
+            tdd_demo.CSVFilter.IsValid(csv_line);
+            var is_valid = tdd_demo.CSVFilter.IsValid(csv_line);
+
+            Assert.False(is_valid);
+        }
     }
 }
