@@ -37,7 +37,7 @@ namespace tdd_demo.UnitTests.CSVFilter
 
         [Theory]
         [InlineData("1,02/05/2019,1000,810,19,,ACER Laptop,B76430134,")]
-        [InlineData("2,03/08/2019,2000,2000,,8,MacBook Pro,,78544372A")]
+        [InlineData("2,03/08/2019,2000,1840,,8,MacBook Pro,,78544372A")]
         public void IsValid_OneLine_IsValid(string csv_line)
         {
             var is_valid = tdd_demo.CSVFilter.IsValid(csv_line);
@@ -57,6 +57,15 @@ namespace tdd_demo.UnitTests.CSVFilter
         [Theory]
         [InlineData("1,02/05/2019,1000,810,19,,ACER Laptop,B76430134,78544372A")]
         public void IsValid_CIF_NIF_Exclusive(string csv_line)
+        {
+            var is_valid = tdd_demo.CSVFilter.IsValid(csv_line);
+
+            Assert.False(is_valid);
+        }
+
+        [Theory]
+        [InlineData("1,02/05/2019,1000,811,19,,ACER Laptop,B76430134,")]
+        public void IsValid_Bruto_Neto(string csv_line)
         {
             var is_valid = tdd_demo.CSVFilter.IsValid(csv_line);
 

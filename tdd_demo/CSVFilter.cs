@@ -73,9 +73,24 @@ namespace tdd_demo
         {
             var data = new CSVLine(line);
 
-            return
-                (data.iva == String.Empty || data.igic == String.Empty)
-                && (data.cif == String.Empty || data.nif == String.Empty);
+            if ((data.iva == String.Empty) == (data.igic == String.Empty)
+                || (data.cif == String.Empty) == (data.nif == String.Empty))
+            {
+                return false;
+            }
+
+            int imp, bruto, neto;
+            if (!int.TryParse(data.iva, out imp) && !int.TryParse(data.igic, out imp))
+            {
+                return false;
+            }
+
+            if (!int.TryParse(data.bruto, out bruto) || !int.TryParse(data.neto, out neto))
+            {
+                return false;
+            }
+
+            return (bruto * (100 - imp) / 100) == neto;
         }
 
         private static string CleanHeader(string header)
