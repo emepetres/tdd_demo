@@ -57,7 +57,7 @@ public class Program
         var csv_path = parsed.csv_path;
         string[] lines = File.ReadAllLines(csv_path);
 
-        var filtered_lines = CSVFilter.Apply(lines);
+        var filtered_lines = new CSVFilter().Apply(lines);
         if (filtered_lines == null)
         {
             return 1;

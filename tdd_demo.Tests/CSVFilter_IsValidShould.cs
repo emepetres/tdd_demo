@@ -58,12 +58,19 @@ namespace tdd_demo.UnitTests.CSVFilter
 
     public class CSVFilter_IsValidShould
     {
+        private tdd_demo.CSVFilter filter;
+
+        public CSVFilter_IsValidShould()
+        {
+            this.filter = new tdd_demo.CSVFilter();
+        }
+
         [Fact]
         public void validate_correct_line()
         {
             string csv_line = new LineBuilder().Build();
 
-            var is_valid = tdd_demo.CSVFilter.IsValid(csv_line);
+            var is_valid = this.filter.IsValid(csv_line);
 
             Assert.True(is_valid);
         }
@@ -76,7 +83,7 @@ namespace tdd_demo.UnitTests.CSVFilter
                 .SetTaxes(iva, igic)
                 .Build();
 
-            var is_valid = tdd_demo.CSVFilter.IsValid(csv_line);
+            var is_valid = this.filter.IsValid(csv_line);
 
             Assert.False(is_valid);
         }
@@ -89,7 +96,7 @@ namespace tdd_demo.UnitTests.CSVFilter
                 .SetId(cif, nif)
                 .Build();
 
-            var is_valid = tdd_demo.CSVFilter.IsValid(csv_line);
+            var is_valid = this.filter.IsValid(csv_line);
 
             Assert.False(is_valid);
         }
@@ -104,7 +111,7 @@ namespace tdd_demo.UnitTests.CSVFilter
                 .SetTaxes(iva,igic)
                 .Build();
 
-            var is_valid = tdd_demo.CSVFilter.IsValid(csv_line);
+            var is_valid = this.filter.IsValid(csv_line);
 
             Assert.False(is_valid);
         }
@@ -114,8 +121,8 @@ namespace tdd_demo.UnitTests.CSVFilter
         {
             string csv_line = new LineBuilder().Build();
 
-            tdd_demo.CSVFilter.IsValid(csv_line);
-            var is_valid = tdd_demo.CSVFilter.IsValid(csv_line);
+            this.filter.IsValid(csv_line);
+            var is_valid = this.filter.IsValid(csv_line);
 
             Assert.False(is_valid);
         }

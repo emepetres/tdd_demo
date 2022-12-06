@@ -10,7 +10,7 @@ namespace tdd_demo.UnitTests.CSVFilter
         [Fact]
         public void discard_files_with_bad_format_header()
         {
-            var csv_filtered = tdd_demo.CSVFilter.Apply(new string[] { "bad header" });
+            var csv_filtered = new tdd_demo.CSVFilter().Apply(new string[] { "bad header" });
 
             Assert.Null(csv_filtered);
         }
@@ -31,7 +31,7 @@ namespace tdd_demo.UnitTests.CSVFilter
                 "1,02/05/2019,1000,810,19,,ACER Laptop,B76430134,"
             };
 
-            var csv_filtered = tdd_demo.CSVFilter.Apply(csv_lines);
+            var csv_filtered = new tdd_demo.CSVFilter().Apply(csv_lines);
 
             Assert.Equal(csv_filtered_expected, csv_filtered);
         }

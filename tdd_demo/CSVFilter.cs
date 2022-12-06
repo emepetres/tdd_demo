@@ -34,12 +34,19 @@ namespace tdd_demo
         }
     }
     
-    public static class CSVFilter
+    public class CSVFilter
     {
         private static readonly Regex sWhitespace = new Regex(@"\s+");
         private static string HEADER = "Num_factura, Fecha, Bruto, Neto, IVA, IGIC, Concepto, CIF_cliente, NIF_cliente";
         
-        public static string[]? Apply(string[] input)
+        private HashSet<int> line_nums;
+
+        public CSVFilter()
+        {
+            line_nums = new HashSet<int>();
+        }
+
+        public string[]? Apply(string[] input)
         {
             var inputs = new Queue<string>(input);
 
@@ -69,7 +76,7 @@ namespace tdd_demo
             return filtered.ToArray();
         }
 
-        public static bool IsValid(string line)
+        public bool IsValid(string line)
         {
             var data = new CSVLine(line);
 
@@ -79,7 +86,7 @@ namespace tdd_demo
                 return false;
             }
 
-            int imp, bruto, neto;
+            int imp, bruto, neto, num;
             if (!int.TryParse(data.iva, out imp) && !int.TryParse(data.igic, out imp))
             {
                 return false;
@@ -90,7 +97,18 @@ namespace tdd_demo
                 return false;
             }
 
-            return (bruto * (100 - imp) / 100) == neto;
+            if ((bruto * (100 - imp) / 100) != neto)
+            {
+                return false;
+            }
+
+            if (!int.TryParse(data.num, out num) || this.line_nums.Contains(num))
+            {
+                return false;
+            }
+            this.line_nums.Add(num);
+
+            return true;
         }
 
         private static string CleanHeader(string header)
